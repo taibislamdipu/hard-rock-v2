@@ -1,3 +1,3 @@
-# hard-rock-solution
+# hard-rock-api
 api link: https://api.lyrics.ovh/suggest/summer
-# hard-rock-v2
+
