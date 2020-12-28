@@ -2,20 +2,19 @@
 <html lang="en">
 
 <head>
-<<<<<<< HEAD
     <title>Hard Rock - Song Lyric App</title>
-=======
-    <title>Hard Rock Solution - Song Lyric App</title>
->>>>>>> 2fb315e8c97045fdf1f2c3939a4031619b680704
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- Custom css -->
-    <link rel="stylesheet" href="style.css">
+        
+        <title>Hard Rock Solution - Song Lyric App</title>
+        
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <!-- Custom css -->
+        <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -52,7 +51,8 @@
             <div class="search-bar col-md-6 mx-auto">
                 <h1 class="text-center">Lyrics Search</h1>
                 <div class="search-box my-5">
-                    <input id="song-name" type="text" class="form-control" placeholder="Enter your artist song name">
+                    <input id="song-name" type="text" class="form-control" placeholder="Enter your artist song name"
+                        value="fear of the dark">
                     <button id="btnSearch" class="btn btn-success search-btn">Search</button>
                 </div>
             </div>
@@ -76,9 +76,9 @@
                 </pre>
             </div>
             <!-- === Fancy results === -->
-            <div class="search-result col-md-8 mx-auto py-4">
+            <div class="search-result col-md-8 mx-auto py-4" id="show-result">
                 <!-- single result -->
-                <div class="single-result row align-items-center my-3 p-3">
+                <!-- <div class="single-result row align-items-center my-3 p-3">
                     <div class="col-md-9">
                         <h3 class="lyrics-name">Purple Noon</h3>
                         <p class="author lead">Album by <span>Washed Out</span></p>
@@ -86,7 +86,7 @@
                     <div class="col-md-3 text-md-right text-center">
                         <button class="btn btn-success">Get Lyrics</button>
                     </div>
-                </div>
+                </div> -->
                 <!-- ./ single result -->
             </div>
 
@@ -103,18 +103,40 @@
     <!-- Custom Script Here -->
 
     <script>
-        function showLyrics() {
+        function showResults() {
             const songName = document.getElementById('song-name').value;
             fetch(`https://api.lyrics.ovh/suggest/${songName}`)
                 .then(res => res.json())
-                .then(data => {
-                    console.log(data);
+                .then(json => {
+                    // console.log('data', json);
+
+                    const data = json.data.slice(0, 10); // showing 10 result out of 15
+
+                    const title = data.map(data => data.album.title);
+                    const artist = data.map(data => data.artist.name);
+
+                    document.getElementById('show-result').innerHTML = `
+                    
+                    <div class="single-result row align-items-center my-3 p-3">
+                    <div class="col-md-9">
+                        <h3 class="lyrics-name">${title}</h3>
+                        <p class="author lead">Album by <span>${artist}</span></p>
+                    </div>
+                    <div class="col-md-3 text-md-right text-center">
+                        <button class="btn btn-success">Get Lyrics</button>
+                    </div>
+                    </div>
+
+                    `
+                    // console.log('album',album);
+                    console.log('artist', artist);
+                    console.log('title', title);
                 })
         }
 
         document.getElementById('btnSearch').addEventListener('click', function () {
             const songName = document.getElementById('song-name').value;
-            showLyrics();
+            showResults();
         })
 
     </script>
